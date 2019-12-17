@@ -1,0 +1,346 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ICN_NumberSearchModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="ICN_NumberSearchModelStoreContainer">
+          <EntitySet Name="CodePoints" EntityType="ICN_NumberSearchModel.Store.CodePoints" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Number" EntityType="ICN_NumberSearchModel.Store.Number" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="NumberOperator" EntityType="ICN_NumberSearchModel.Store.NumberOperator" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Operator" EntityType="ICN_NumberSearchModel.Store.Operator" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tb_Setting" EntityType="ICN_NumberSearchModel.Store.tb_Setting" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UploadedFile" EntityType="ICN_NumberSearchModel.Store.UploadedFile" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="vw_NumbersAndOperators" EntityType="ICN_NumberSearchModel.Store.vw_NumbersAndOperators" store:Type="Views" store:Schema="dbo" store:Name="vw_NumbersAndOperators">
+            <DefiningQuery>SELECT 
+      [vw_NumbersAndOperators].[Number] AS [Number], 
+      [vw_NumbersAndOperators].[NumberOperatorID] AS [NumberOperatorID], 
+      [vw_NumbersAndOperators].[OperatorID] AS [OperatorID], 
+      [vw_NumbersAndOperators].[NumberID] AS [NumberID], 
+      [vw_NumbersAndOperators].[Name] AS [Name], 
+      [vw_NumbersAndOperators].[port_completion_time] AS [port_completion_time]
+      FROM [dbo].[vw_NumbersAndOperators] AS [vw_NumbersAndOperators]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_NumberOperator_Number" Association="ICN_NumberSearchModel.Store.FK_NumberOperator_Number">
+            <End Role="Number" EntitySet="Number" />
+            <End Role="NumberOperator" EntitySet="NumberOperator" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NumberOperator_Operator" Association="ICN_NumberSearchModel.Store.FK_NumberOperator_Operator">
+            <End Role="Operator" EntitySet="Operator" />
+            <End Role="NumberOperator" EntitySet="NumberOperator" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="CodePoints">
+          <Key>
+            <PropertyRef Name="code_point_id" />
+          </Key>
+          <Property Name="code_point_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="point_number" Type="varchar" MaxLength="4" />
+          <Property Name="OperatorName" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Number">
+          <Key>
+            <PropertyRef Name="NumberID" />
+          </Key>
+          <Property Name="NumberID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Number" Type="varchar" Nullable="false" MaxLength="15" />
+          <Property Name="port_completion_time" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="NumberOperator">
+          <Key>
+            <PropertyRef Name="NumberOperatorID" />
+          </Key>
+          <Property Name="NumberOperatorID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="OperatorID" Type="int" Nullable="false" />
+          <Property Name="NumberID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Operator">
+          <Key>
+            <PropertyRef Name="OperatorID" />
+          </Key>
+          <Property Name="OperatorID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="tb_Setting">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="Value" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="UploadedFile">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="FileName" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="ProcessedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'ICN_NumberSearch.dbo.vw_NumbersAndOperators' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="vw_NumbersAndOperators">
+          <Key>
+            <PropertyRef Name="Number" />
+            <PropertyRef Name="NumberOperatorID" />
+            <PropertyRef Name="OperatorID" />
+            <PropertyRef Name="NumberID" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Number" Type="varchar" Nullable="false" MaxLength="15" />
+          <Property Name="NumberOperatorID" Type="bigint" Nullable="false" />
+          <Property Name="OperatorID" Type="int" Nullable="false" />
+          <Property Name="NumberID" Type="bigint" Nullable="false" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="port_completion_time" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_NumberOperator_Number">
+          <End Role="Number" Type="ICN_NumberSearchModel.Store.Number" Multiplicity="1" />
+          <End Role="NumberOperator" Type="ICN_NumberSearchModel.Store.NumberOperator" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Number">
+              <PropertyRef Name="NumberID" />
+            </Principal>
+            <Dependent Role="NumberOperator">
+              <PropertyRef Name="NumberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NumberOperator_Operator">
+          <End Role="Operator" Type="ICN_NumberSearchModel.Store.Operator" Multiplicity="1" />
+          <End Role="NumberOperator" Type="ICN_NumberSearchModel.Store.NumberOperator" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Operator">
+              <PropertyRef Name="OperatorID" />
+            </Principal>
+            <Dependent Role="NumberOperator">
+              <PropertyRef Name="OperatorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ICN_NumberSearchModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="ICN_NumberSearchEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CodePoints" EntityType="ICN_NumberSearchModel.CodePoint" />
+          <EntitySet Name="Numbers" EntityType="ICN_NumberSearchModel.Number" />
+          <EntitySet Name="NumberOperators" EntityType="ICN_NumberSearchModel.NumberOperator" />
+          <EntitySet Name="Operators" EntityType="ICN_NumberSearchModel.Operator" />
+          <EntitySet Name="tb_Setting" EntityType="ICN_NumberSearchModel.tb_Setting" />
+          <EntitySet Name="UploadedFiles" EntityType="ICN_NumberSearchModel.UploadedFile" />
+          <EntitySet Name="vw_NumbersAndOperators" EntityType="ICN_NumberSearchModel.vw_NumbersAndOperators" />
+          <AssociationSet Name="FK_NumberOperator_Number" Association="ICN_NumberSearchModel.FK_NumberOperator_Number">
+            <End Role="Number" EntitySet="Numbers" />
+            <End Role="NumberOperator" EntitySet="NumberOperators" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NumberOperator_Operator" Association="ICN_NumberSearchModel.FK_NumberOperator_Operator">
+            <End Role="Operator" EntitySet="Operators" />
+            <End Role="NumberOperator" EntitySet="NumberOperators" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="CodePoint">
+          <Key>
+            <PropertyRef Name="code_point_id" />
+          </Key>
+          <Property Name="code_point_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="point_number" Type="String" MaxLength="4" Unicode="false" FixedLength="false" />
+          <Property Name="OperatorName" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Number">
+          <Key>
+            <PropertyRef Name="NumberID" />
+          </Key>
+          <Property Name="NumberID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Number1" Type="String" Nullable="false" MaxLength="15" Unicode="false" FixedLength="false" />
+          <Property Name="port_completion_time" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="NumberOperators" Relationship="ICN_NumberSearchModel.FK_NumberOperator_Number" FromRole="Number" ToRole="NumberOperator" />
+        </EntityType>
+        <EntityType Name="NumberOperator">
+          <Key>
+            <PropertyRef Name="NumberOperatorID" />
+          </Key>
+          <Property Name="NumberOperatorID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OperatorID" Type="Int32" Nullable="false" />
+          <Property Name="NumberID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Number" Relationship="ICN_NumberSearchModel.FK_NumberOperator_Number" FromRole="NumberOperator" ToRole="Number" />
+          <NavigationProperty Name="Operator" Relationship="ICN_NumberSearchModel.FK_NumberOperator_Operator" FromRole="NumberOperator" ToRole="Operator" />
+        </EntityType>
+        <EntityType Name="Operator">
+          <Key>
+            <PropertyRef Name="OperatorID" />
+          </Key>
+          <Property Name="OperatorID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="NumberOperators" Relationship="ICN_NumberSearchModel.FK_NumberOperator_Operator" FromRole="Operator" ToRole="NumberOperator" />
+        </EntityType>
+        <EntityType Name="tb_Setting">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="Value" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="UploadedFile">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FileName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
+          <Property Name="ProcessedDate" Type="DateTime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vw_NumbersAndOperators">
+          <Key>
+            <PropertyRef Name="Number" />
+            <PropertyRef Name="NumberOperatorID" />
+            <PropertyRef Name="OperatorID" />
+            <PropertyRef Name="NumberID" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Number" Type="String" Nullable="false" MaxLength="15" Unicode="false" FixedLength="false" />
+          <Property Name="NumberOperatorID" Type="Int64" Nullable="false" />
+          <Property Name="OperatorID" Type="Int32" Nullable="false" />
+          <Property Name="NumberID" Type="Int64" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="port_completion_time" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_NumberOperator_Number">
+          <End Role="Number" Type="ICN_NumberSearchModel.Number" Multiplicity="1" />
+          <End Role="NumberOperator" Type="ICN_NumberSearchModel.NumberOperator" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Number">
+              <PropertyRef Name="NumberID" />
+            </Principal>
+            <Dependent Role="NumberOperator">
+              <PropertyRef Name="NumberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NumberOperator_Operator">
+          <End Role="Operator" Type="ICN_NumberSearchModel.Operator" Multiplicity="1" />
+          <End Role="NumberOperator" Type="ICN_NumberSearchModel.NumberOperator" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Operator">
+              <PropertyRef Name="OperatorID" />
+            </Principal>
+            <Dependent Role="NumberOperator">
+              <PropertyRef Name="OperatorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ICN_NumberSearchModelStoreContainer" CdmEntityContainer="ICN_NumberSearchEntities">
+          <EntitySetMapping Name="CodePoints">
+            <EntityTypeMapping TypeName="ICN_NumberSearchModel.CodePoint">
+              <MappingFragment StoreEntitySet="CodePoints">
+                <ScalarProperty Name="code_point_id" ColumnName="code_point_id" />
+                <ScalarProperty Name="point_number" ColumnName="point_number" />
+                <ScalarProperty Name="OperatorName" ColumnName="OperatorName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Numbers">
+            <EntityTypeMapping TypeName="ICN_NumberSearchModel.Number">
+              <MappingFragment StoreEntitySet="Number">
+                <ScalarProperty Name="NumberID" ColumnName="NumberID" />
+                <ScalarProperty Name="Number1" ColumnName="Number" />
+                <ScalarProperty Name="port_completion_time" ColumnName="port_completion_time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NumberOperators">
+            <EntityTypeMapping TypeName="ICN_NumberSearchModel.NumberOperator">
+              <MappingFragment StoreEntitySet="NumberOperator">
+                <ScalarProperty Name="NumberOperatorID" ColumnName="NumberOperatorID" />
+                <ScalarProperty Name="OperatorID" ColumnName="OperatorID" />
+                <ScalarProperty Name="NumberID" ColumnName="NumberID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Operators">
+            <EntityTypeMapping TypeName="ICN_NumberSearchModel.Operator">
+              <MappingFragment StoreEntitySet="Operator">
+                <ScalarProperty Name="OperatorID" ColumnName="OperatorID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tb_Setting">
+            <EntityTypeMapping TypeName="ICN_NumberSearchModel.tb_Setting">
+              <MappingFragment StoreEntitySet="tb_Setting">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UploadedFiles">
+            <EntityTypeMapping TypeName="ICN_NumberSearchModel.UploadedFile">
+              <MappingFragment StoreEntitySet="UploadedFile">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="ProcessedDate" ColumnName="ProcessedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_NumbersAndOperators">
+            <EntityTypeMapping TypeName="ICN_NumberSearchModel.vw_NumbersAndOperators">
+              <MappingFragment StoreEntitySet="vw_NumbersAndOperators">
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="NumberOperatorID" ColumnName="NumberOperatorID" />
+                <ScalarProperty Name="OperatorID" ColumnName="OperatorID" />
+                <ScalarProperty Name="NumberID" ColumnName="NumberID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="port_completion_time" ColumnName="port_completion_time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="DB">
+        <EntityTypeShape EntityType="ICN_NumberSearchModel.CodePoint" Width="1.5" PointX="2.75" PointY="3.75" Height="1.5956835937499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="ICN_NumberSearchModel.Number" Width="1.5" PointX="0.75" PointY="1" Height="1.7879850260416674" IsExpanded="true" />
+        <EntityTypeShape EntityType="ICN_NumberSearchModel.NumberOperator" Width="1.5" PointX="3" PointY="0.875" Height="1.9802864583333326" IsExpanded="true" />
+        <EntityTypeShape EntityType="ICN_NumberSearchModel.Operator" Width="1.5" PointX="0.75" PointY="4.125" Height="1.5956835937499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="ICN_NumberSearchModel.tb_Setting" Width="1.5" PointX="4.75" PointY="3.75" Height="1.5956835937499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="ICN_NumberSearchModel.UploadedFile" Width="1.5" PointX="5.75" PointY="0.75" Height="1.5956835937499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="ICN_NumberSearchModel.vw_NumbersAndOperators" Width="1.5" PointX="0.75" PointY="6.75" Height="2.1725878906249996" IsExpanded="true" />
+        <AssociationConnector Association="ICN_NumberSearchModel.FK_NumberOperator_Number" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="1.8939925130208337" />
+          <ConnectorPoint PointX="3" PointY="1.8939925130208337" />
+        </AssociationConnector>
+        <AssociationConnector Association="ICN_NumberSearchModel.FK_NumberOperator_Operator" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="5.56443359375" />
+          <ConnectorPoint PointX="4.40625" PointY="5.56443359375" />
+          <ConnectorPoint PointX="4.40625" PointY="2.8552864583333326" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

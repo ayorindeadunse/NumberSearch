@@ -1,0 +1,36 @@
+﻿<Window x:Class="NumberUpload.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Number Upload" Height="500" Width="625" ResizeMode="NoResize" Loaded="Window_Loaded">
+    <Grid>
+        <TabControl HorizontalAlignment="Left" Margin="10,10,0,0" Name="tabControl1" VerticalAlignment="Top" Width="auto" Height="auto">
+            <TabItem Header="Upload Numbers" Name="tabItem1" Width="auto" Height="auto">
+                <Grid>
+                    
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Width="auto" Height="400">
+                        <StackPanel>
+                            <TextBlock Name="txbStatus" Visibility="Hidden" Foreground="#FFEF1515"></TextBlock>
+                            <WrapPanel Width="500">
+                                <TextBox Name="txtUpload" Width="400"></TextBox>
+                                <Button Name="btnUpload" Content="UPLOAD" Click="btnUpload_Click"></Button>
+                            </WrapPanel>
+                            <DataGrid AutoGenerateColumns="False" Height="auto" HorizontalAlignment="Left" Margin="10,10,0,0"
+                                  Name="dtgUpload" VerticalAlignment="Top" Width="auto" HorizontalScrollBarVisibility="Auto" 
+                                      VerticalScrollBarVisibility="Auto" Visibility="Hidden" GridLinesVisibility="Vertical" HeadersVisibility="All"
+                                      Background="LightGray" RowBackground="LightYellow" AlternatingRowBackground="LightBlue" 
+                                      BorderBrush="Gray" BorderThickness="2">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding Path=SN}" Width="50" Header="SN"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding Path=Number}" Width="320" Header="Numbers"></DataGridTextColumn>
+                                    <DataGridTextColumn Binding="{Binding Path=Operator}" Width="70" Header="Operators"></DataGridTextColumn>
+                                </DataGrid.Columns>
+
+                            </DataGrid>
+                        </StackPanel>
+                    </ScrollViewer>
+                    
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
